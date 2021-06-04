@@ -129,9 +129,6 @@ spec:
       value: roxsecrets
     - name: output_format
       value: pretty
-    workspaces:
-    - name: source
-      workspace: workspace
   - name: update-deployment
     runAfter:
     - image-scan

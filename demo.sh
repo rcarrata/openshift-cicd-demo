@@ -101,6 +101,11 @@ command.install() {
   oc rollout status deployment/gogs -n $cicd_prj
   oc create -f config/gogs-init-taskrun.yaml -n $cicd_prj
 
+  # ACS Pipeline 
+  # API_TOKEN="xxxxx"
+  CENTRAL_ROUTE=$(oc get route -n stackrox central -o jsonpath='{.spec.host}')
+  cat infra/rox-secrets.yaml | API_TOKEN=$API_TOKEN  envsubst | oc apply -f -
+
   info "Configure Argo CD"
   cat << EOF > argo/tmp-argocd-app-patch.yaml
 ---
