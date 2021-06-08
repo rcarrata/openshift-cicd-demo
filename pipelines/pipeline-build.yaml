@@ -129,9 +129,22 @@ spec:
       value: roxsecrets
     - name: output_format
       value: pretty
-  - name: update-deployment
+  - name: image-check
     runAfter:
     - image-scan
+    taskRef:
+      name: rox-image-check
+      kind: ClusterTask
+    params:
+    - name: image
+      value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic
+    - name: rox_api_token
+      value: roxsecrets
+    - name: rox_central_endpoint
+      value: roxsecrets
+  - name: update-deployment
+    runAfter:
+    - image-check
     taskRef:
       name: git-update-deployment
     params:
