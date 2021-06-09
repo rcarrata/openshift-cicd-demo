@@ -142,9 +142,29 @@ spec:
       value: roxsecrets
     - name: rox_central_endpoint
       value: roxsecrets
-  - name: update-deployment
+  - name: deploy-check
     runAfter:
     - image-check
+    taskRef:
+      name: rox-deployment-check
+      kind: ClusterTask
+    params:
+    - name: GIT_REPOSITORY
+      value: "$(params.APP_MANIFESTS_GIT)"
+    - name: rox_api_token
+      value: roxsecrets
+    - name: rox_central_endpoint
+      value: roxsecrets
+    - name: file
+      value: deployment.yaml
+    - name: deployment_files_path
+      value: app
+    workspaces:
+    - name: workspace
+      workspace: workspace
+  - name: update-deployment
+    runAfter:
+    - deploy-check
     taskRef:
       name: git-update-deployment
     params:

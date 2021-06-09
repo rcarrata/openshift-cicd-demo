@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: ClusterTask
 metadata:
-  name: acs-image-scan
+  name: rox-image-scan
   namespace: pipeline-demo
 spec:
   params:
